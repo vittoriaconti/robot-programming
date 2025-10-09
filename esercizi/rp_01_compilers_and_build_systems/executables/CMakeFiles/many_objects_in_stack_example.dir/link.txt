@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wall -Wextra -pedantic -rdynamic CMakeFiles/many_objects_in_stack_example.dir/many_object_in_stack_example.cpp.o -o many_objects_in_stack_example  -Wl,-rpath,/home/vittoria/Desktop/robotprogramming_2025_26-main/exercises/rp_01_compilers_and_build_systems/src ../src/libcore_library.so 
