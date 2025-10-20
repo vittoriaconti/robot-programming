@@ -13,11 +13,16 @@ struct A{
         cerr << "A [" << this << "]" << " dtor" << endl;
     }
 
-    void print() {
+    virtual void print(){ //adding the keayword virtual so that the method can be overrided
         cerr << "A::print() [" << this << "]: my_value=" << my_value << endl;
     }
 };
 
+/*KEYWORDS:
+public -> everyone can see it
+protected -> visible only in the class and its descendants
+private -> visible only in the class
+Struct and classes in C++ are the same, but structs are public by default and classes are private by default*/
 
 struct B: public A{ //B inherits all the elements of A and has the other value
     int my_other_value;
@@ -40,7 +45,7 @@ struct B: public A{ //B inherits all the elements of A and has the other value
         cerr << "B [" << this << "]" << " dtor" << endl;
     }
 
-    void print(){
+    void print() override {
         A::print(); //calls method of the base class using scoping <classname>::<method_or_variable> AND overrides it
         cerr << "B::print() [" << this << "]: my_other_value=" << my_other_value << endl;
     }
