@@ -35,7 +35,7 @@ struct VecF{
         }
     }
 
-    ~VecF(){ //destructor
+    ~VecF(){ //destructor -> automatically called when the life cycle of the object ends
         if (dim) delete [] v;
     }
 
