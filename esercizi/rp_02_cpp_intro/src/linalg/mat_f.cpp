@@ -65,8 +65,18 @@ const float& MatF::at(int r, int c) const {
 
 // op =, deep copy
 MatF& MatF::operator =(const MatF& other) {
-  // TODO: fillme
+  if (this->v) delete [] v;
+  this->rows = 0;
+  this->cols = 0;
+  if (!other.v) return *this;
 
+  this->rows = other.rows;
+  this->cols = other.cols;
+  int size = this->rows*this->cols;
+  this->v = new float[size];
+  for (int i=0; i<size; i++){
+    this->v[i] = other.v[i];
+  }
   return *this;
 }
 
@@ -75,28 +85,51 @@ MatF MatF::operator +(const MatF& other) const {
   assert (other.cols==cols && other.rows==rows && "dim mismatch");
   MatF returned (*this);
 
-  // TODO: fillme
+  int size = this->cols*this->rows;
+  for (int i=0; i<size; i++){
+    returned.v[i] += other.v[i];
+  }
 
   return returned;
 }
 
 // returns the difference this - other
 MatF MatF::operator -(const MatF& other) const {
+  assert (other.cols==cols && other.rows==rows && "dim mismatch");
+  MatF returned (*this);
 
-  // TODO: fillme
+  int size = this->cols*this->rows;
+  for (int i=0; i<size; i++){
+    returned.v[i] -= other.v[i];
+  }
+
+  return returned;
 
 }  
 
 // returns this*f
 MatF MatF::operator* (float f) const {
-  // TODO: fillme
-}
+  MatF returned (*this);
 
+  int size = this->cols*this->rows;
+  for (int i=0; i<size; i++){
+    returned.v[i] *= f;
+  }
+
+  return returned;
+}
 // returns this * other
 VecF MatF::operator *(const VecF& other) const {
   assert(other.dim==cols && "dim mismatch");
   VecF returned (rows);
-  // TODO: fillme
+  int size = this->rows*this->cols;
+  for (int i=0; i <rows; ++i) {
+    float sum=0;
+      for (int j=0; j < cols; ++j) {
+        sum += this->v[i*cols+j] * other.v[j];
+      }
+      returned.v[i] = sum;
+  }
   return returned;
 }
 
@@ -104,7 +137,15 @@ VecF MatF::operator *(const VecF& other) const {
 MatF MatF::operator *(const MatF& other) const {
   assert(cols==other.rows && "dimension mismatch");
   MatF returned(rows, other.cols);
-  //TODO: fillme
+  for (int i=0; i<this->rows; i++){
+    for (int j=0; j<other.cols; j++) {
+      float sum = 0;
+      for (int k=0; k <this->cols; k++) {
+        sum += this->v[i*this->cols+k] * other.v[k*other.cols+j];
+      }
+      returned.v[i*returned.cols+j]=sum;
+    }
+  }
   return returned;
 }
 
